@@ -5,19 +5,15 @@ import {
     Route
 } from 'react-router-dom'
 
-import SignUp from './signup'
-import Login from './login'
-import Home from './home'
-import Logout from './logout'
+import Home from './home/home'
+import Navbar from './navbar/navbar'
 
 class App extends Component {
     render() {
 		return (
             <Router>
                 <div>
-                    <Route exact path='/login' component={Login} />
-                    <Route exact path='/logout' component={Logout} />                    
-                    <Route exact path='/signup' component={SignUp} />
+                    <Navbar/>
                     <Route exact path='/' component={Home} />
                 </div>
             </Router>
