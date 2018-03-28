@@ -9,15 +9,41 @@ class Timer extends Component {
 
     constructor(props) {
         super(props)
-        this.state = {activity: ''}
+        this.state = {
+            activity: '',
+            activities: []
+        }
     }
 
     componentDidMount() {
         axios.get('/activities')
-        .then(activities => {
-            console.log(activities)
+        .then(response => {
+            const activities = response.data.reduce((acc, activity) => {
+                return [...acc, activity.activity]
+            }, [])
             this.setState({activities})
         })
+    }
+
+    renderDatalist = (label, key, options) => {
+
+        const renderOptions = options => {
+            return options.map(option => {
+                return <option value={option} key={option}/>
+            })
+        }
+
+        return (
+            <div>
+                <div>
+                    {label}
+                </div>
+                <input list={key} value={this.state[key]} onChange={event => this.setState({activity: event.target.value})} />
+                <datalist id={key}>
+                    {renderOptions(options)}
+                </datalist>
+            </div>
+        )
     }
 
     render() {
@@ -28,7 +54,12 @@ class Timer extends Component {
             <TimerContainer>
                 <h1>Timer</h1>
                 <div>
-                    <input type='text' value={this.state.activity} onChange={e => this.setState({activity: e.target.value})} />
+                    {this.renderDatalist('What are you going to do?', this.state.activity, this.state.activities)}
+                    <div>
+                    <button>
+                        Start Timer
+                    </button>
+                    </div>
                 </div>
             </TimerContainer>
         )

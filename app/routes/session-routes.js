@@ -9,7 +9,9 @@ module.exports = {
     postSession: function(app, route) {
         app.post(route, (req, res) => {
             const newSession = {...req.body}
-            db.Session.create(newSession, (err, session) => res.json(session))
+            db.Session.create(newSession, (err, session) => {
+                res.json(session)
+            )}
         })
     },
 };

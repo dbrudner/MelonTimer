@@ -9,7 +9,8 @@ module.exports = {
     getActivities: function(app, route) {
         app.get(route, (req, res) => {
             db.Activity.find()
-            .exec(activities => {
+            .exec((error, activities) => {
+                console.log(activities)
                 res.json(activities)
             })
         })
