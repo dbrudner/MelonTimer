@@ -1,5 +1,16 @@
-body {
-  margin: 0;
+html {
+  /* Defines 1rem */
+  font-size: 62.5%;
+  overflow-x: hidden;
   padding: 0;
-  font-family: sans-serif;
+  margin: 0;
+  background-color: rgba(78, 78, 78, 0.144);
+}
+
+body {
+  box-sizing: border-box;
+  line-height: 1.7;
+  padding: 0;
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
 }

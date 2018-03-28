@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import axios from 'axios'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import { Login } from '../actions/index';
+import { Login, openSignUp } from '../actions/index';
 import {Link} from 'react-router-dom'
 
 import SignupButton from './signup-button'
@@ -59,7 +59,7 @@ class LoginOrRegister extends Component {
     }
 
     signUp = () => {
-        console.log('hi')
+        this.props.openSignUp(true)
     }
 
     render() {
@@ -87,7 +87,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({Login: Login}, dispatch)
+    return bindActionCreators({Login, openSignUp}, dispatch)
 }
 
 

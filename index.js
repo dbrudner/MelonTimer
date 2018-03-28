@@ -9,7 +9,7 @@ const bodyParser   = require('body-parser');
 const session      = require('express-session');
 const path = require('path')
 
-const dbname = 'testdb'
+const dbname = 'lifetimer'
 
 const developmentUrl = `mongodb://localhost/${dbname}`
 

@@ -6,6 +6,7 @@ import {bindActionCreators} from 'redux'
 import { Login, logout } from '../actions';
 import LoginOrRegister from './login-or-register'
 import UserInfo from './user-info'
+import Signup from '../signup/signup'
 
 const NavbarContainer = styled.div`
     background-color: rgb(80%, 53.4%, 53.4%);
@@ -100,19 +101,23 @@ class Navbar extends Component {
 
     render() {
         return (
-            <NavbarContainer>
-                <Brand>
-                    Lifetimer
-                </Brand>
-                <NavLinks>
-                    <ul>
-                        <li>Times</li>
-                    </ul>
-                </NavLinks>
-                <UserContainer>
-                    {this.renderInfoOrLogin()}
-                </UserContainer>
-            </NavbarContainer>
+            <div>
+                {this.props.state.openSignUp ? <Signup closeModal={this.closeSignupModal}/> : null}
+                <NavbarContainer>
+                    <Brand>
+                        Lifetimer
+                    </Brand>
+                    <NavLinks>
+                        <ul>
+                            <li>Times</li>
+                        </ul>
+                    </NavLinks>
+                    <UserContainer>
+                        {this.renderInfoOrLogin()}
+                    </UserContainer>
+                </NavbarContainer>
+            </div>
+            
         )
     }
 }

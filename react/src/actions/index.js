@@ -14,3 +14,10 @@ export function logout() {
         payload: null
     }
 }
+
+export function openSignUp(boolean) {
+    return {
+        type: types.SIGNUP,
+        payload: boolean
+    }
+}
