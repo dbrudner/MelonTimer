@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import NotSignedIn from './not-signed-in'
-import {TimerContainer} from './styles'
+import {TimerContainer, StartTimer} from './styles'
 import axios from 'axios'
-
+import RunningTimer from './running-timer'
 
 class Timer extends Component {
 
@@ -11,7 +11,10 @@ class Timer extends Component {
         super(props)
         this.state = {
             activity: '',
-            activities: []
+            activities: [],
+            timerStarted: false,
+            timeStarted: null,
+            timeFinished: null
         }
     }
 
@@ -46,9 +49,23 @@ class Timer extends Component {
         )
     }
 
-    render() {
+    startRunningTimer= () => {
+        console.log('started')
+        this.setState({
+            timerStarted: true,
+            timeStarted: Date.now()
+        })
+    }
 
+    render() {
+        console.log(this.state)
+        // If user isn't signed in, inform them to sign in or register
         if (!this.props.state.user) return <NotSignedIn/>
+
+        // If timer is started, start a timer and return this component instead
+        if (this.state.timerStarted) {
+            return <RunningTimer props={this.state} />
+        }
 
         return (
             <TimerContainer>
@@ -56,9 +73,9 @@ class Timer extends Component {
                 <div>
                     {this.renderDatalist('What are you going to do?', this.state.activity, this.state.activities)}
                     <div>
-                    <button>
+                    <StartTimer onClick={this.startRunningTimer}>
                         Start Timer
-                    </button>
+                    </StartTimer>
                     </div>
                 </div>
             </TimerContainer>

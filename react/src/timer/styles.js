@@ -5,3 +5,10 @@ export const TimerContainer = styled.div`
     margin: 3rem;
     text-align: center;
 `
+
+export const StartTimer = styled.button`
+    margin-top: 3rem;
+`
+
+export const StopWatch = styled.div`
+`
