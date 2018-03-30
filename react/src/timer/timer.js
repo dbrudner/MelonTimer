@@ -25,10 +25,7 @@ class Timer extends Component {
     componentDidMount() {
         axios.get('/activities')
         .then(response => {
-            const activities = response.data.reduce((acc, activity) => {
-                return [...acc, activity.activity]
-            }, [])
-            this.setState({activities})
+            this.setState({activities: response.data})
         })
     }
 
@@ -45,7 +42,7 @@ class Timer extends Component {
                 <div>
                     {label}
                 </div>
-                <input list={key} value={this.state[key]} onChange={event => this.setState({activity: event.target.value})} />
+                <input list={key} value={this.state[key]} onChange={event => this.setState({activity: event.target.value.toLowerCase()})} />
                 <datalist id={key}>
                     {renderOptions(options)}
                 </datalist>
@@ -88,7 +85,6 @@ class Timer extends Component {
     }
 
     sessionFinished = () => {
-
         // Add final session segment
         this.setState({
             sessionFinished: true,
@@ -97,21 +93,20 @@ class Timer extends Component {
             this.setState({
                 times: [...this.state.times, this.state.currentSession]
             }, () => {
+
+                // Prepare object for post                
                 const session = {
                     activity: this.state.activity,
                     times: this.state.times
                 }
     
+                // Post new session
                 axios.post('/new/session', session)
                 .then(res => {
                     console.log(res)
                 })
             })
         })
-
-
-        // Prepare object for post
-
     }
 
     render() {
@@ -130,15 +125,18 @@ class Timer extends Component {
 
         return (
             <TimerContainer>
-                <h1>Timer</h1>
                 <div>
-                    {this.renderDatalist('What are you going to do?', this.state.activity, this.state.activities)}
+                    <h1>Timer</h1>
                     <div>
-                    <StartTimer onClick={this.startRunningTimer}>
-                        Start Timer
-                    </StartTimer>
+                        {this.renderDatalist('What are you going to do?', this.state.activity, this.state.activities)}
+                        <div>
+                        <StartTimer onClick={this.startRunningTimer}>
+                            Start Session
+                        </StartTimer>
+                        </div>
                     </div>
                 </div>
+                
             </TimerContainer>
         )
     }

@@ -14,5 +14,19 @@ module.exports = {
                 res.json(session)
             }))
         })
+    },
+
+    getAllActivities: function(app, route) {
+        app.get(route, (req, res) => {
+            db.Session.find()
+            .exec((error, result) => {
+                const activities = result.reduce((acc, session) => {
+                    if (!acc.includes(session.activity)) return [...acc, session.activity]
+                    return acc
+                }, [])
+                console.log('activities')
+                res.json(activities)
+            })
+        })
     }
 }

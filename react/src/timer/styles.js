@@ -1,9 +1,21 @@
 import styled from 'styled-components'
 
 export const TimerContainer = styled.div`
-    background-color: #f3f3f3;
-    margin: 3rem;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5rem;
+
+    div {
+        background-color: #f3f3f3;
+        text-align: center;
+        display: inline-block;
+        padding: 1rem;
+
+        div {
+            display: block;
+        }
+    }
 `
 
 export const StartTimer = styled.button`

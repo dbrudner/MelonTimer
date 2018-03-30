@@ -85,9 +85,8 @@ class RunningTimer extends Component {
         }
 
         return (
-            <div>
-                Running
-                <StopWatch>
+            <StopWatch>
+                <div>
                     <div>
                         {time.hours}:
                         {time.minutes}:
@@ -98,8 +97,8 @@ class RunningTimer extends Component {
                         {this.renderPauseOrStartButton()}
                         <button onClick={this.props.sessionFinished}>Finish and Log Session</button>
                     </Buttons>
-                </StopWatch>
-            </div>
+                </div>
+            </StopWatch>
         )
     }
 }
