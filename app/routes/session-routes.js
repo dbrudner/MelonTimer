@@ -24,8 +24,19 @@ module.exports = {
                     if (!acc.includes(session.activity)) return [...acc, session.activity]
                     return acc
                 }, [])
-                console.log('activities')
                 res.json(activities)
+            })
+        })
+    },
+
+    getSessions: function(app, route) {
+        app.get(route, (req, res) => {
+            const userId = req.params.userId
+            db.Session.find({'userId': userId})
+            .exec((error, sessions) => {
+                console.log(error)
+                console.log(sessions)
+                res.json(sessions)
             })
         })
     }

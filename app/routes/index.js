@@ -10,6 +10,9 @@ module.exports = function (app, passport) {
     // Records a session
     sessionRoutes.postSession(app, '/new/session')
 
+    // Get all sessions from a user
+    sessionRoutes.getSessions(app, '/sessions/:userId')
+
     // Checks if a user is logged in
     userRoutes.test(app, '/test')
 

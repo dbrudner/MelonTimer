@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
+import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import { Login, logout } from '../actions';
@@ -14,6 +15,7 @@ const NavbarContainer = styled.div`
     display: flex;
     justify-content: space-between;
     font-size: 2rem;
+    padding: 2rem;
 `
 
 const Brand = styled.div`
@@ -22,6 +24,7 @@ const Brand = styled.div`
 
 const NavLinks = styled.div`
     display: inline-block;
+    margin-left: 2rem;
 
     ul {
         display: inline-block;
@@ -35,12 +38,26 @@ const NavLinks = styled.div`
             &:first-child {
                 margin-left: 0;
             }
+
+            a {
+                text-decoration: none;
+                color: white;
+                display: inline-block;
+                transition: all .3s;
+
+                :hover {
+                    color: #b3ff97;
+                    transition: all .3s;
+                    transform: translateY(-1rem);
+                }
+            }
         }
     }
 `
 
 const UserContainer = styled.div`
     display: inline-block;
+    margin-right: 3rem;
 
     ul {
         margin: 0;
@@ -106,12 +123,14 @@ class Navbar extends Component {
                 <NavbarContainer>
                     <Brand>
                         Lifetimer
+                        <NavLinks>
+                            <ul>
+                                <li><Link to='/sessions'>Session Log</Link></li>
+                                <li><Link to='/session'>Start New Session</Link></li>                                
+                            </ul>
+                        </NavLinks>
                     </Brand>
-                    <NavLinks>
-                        <ul>
-                            <li>Times</li>
-                        </ul>
-                    </NavLinks>
+                    
                     <UserContainer>
                         {this.renderInfoOrLogin()}
                     </UserContainer>

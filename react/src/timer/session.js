@@ -94,10 +94,13 @@ class Session extends Component {
                 times: [...this.state.times, this.state.currentSession]
             }, () => {
 
+                const userId = this.props.state.user._id
+                console.log(userId)
                 // Prepare object for post
                 const session = {
                     activity: this.state.activity,
-                    times: this.state.times
+                    times: this.state.times,
+                    userId
                 }
 
                 // Post new session

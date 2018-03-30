@@ -3,10 +3,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const sessionSchema = new Schema({
-    userId: { 
-        type: Schema.Types.ObjectId, 
-        ref: 'User'
-    },
+    userId: String,
     activity: String,
     times: Array,
     created_at: { type: Date, required: true, default: Date.now }
