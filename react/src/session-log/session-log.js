@@ -32,7 +32,7 @@ class SessionLog extends Component {
     renderSessions = () => {
         const sessionRows = this.state.sessions.map(session => {
             return (
-                <tr>
+                <tr key={session.created_at}>
                     <td>{session.activity}</td>
                     <td>{session.totalTime}</td>
                     <td>{session.times.length}</td>                    
