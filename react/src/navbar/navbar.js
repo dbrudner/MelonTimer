@@ -104,9 +104,7 @@ class Navbar extends Component {
     }
 
     renderInfoOrLogin = () => {
-
-        console.log(this.props.state)
-
+        console.log('hey')
         if (!this.state.loginCheck) return null
 
         if (this.props.state.user) {

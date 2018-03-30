@@ -6,6 +6,7 @@ import {Link} from 'react-router-dom'
 const UserInfoContainer = styled.div`
     ul li {
         margin-right: 1rem;
+        cursor: pointer;
     }
 `
 

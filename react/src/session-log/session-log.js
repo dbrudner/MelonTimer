@@ -3,12 +3,15 @@ import {connect} from 'react-redux'
 import axios from 'axios'
 import moment from 'moment'
 import {SessionLogContainer, SessionLogTable} from './styles'
+import Modal from 'react-responsive-modal'
 
 class SessionLog extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            sessions: []
+            sessions: [],
+            openMoreInfo: false,
+            loading: true
         }
     }
 
@@ -26,7 +29,7 @@ class SessionLog extends Component {
                     totalTime
                 }
             })
-            this.setState({sessions})
+            this.setState({sessions, loading: false})
         })
     }
 
@@ -37,8 +40,9 @@ class SessionLog extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        this.getSessions(nextProps.state.user._id)
-        
+        if (nextProps.state.user) {
+            this.getSessions(nextProps.state.user._id)
+        }
     }
 
     convertTime = ms => {
@@ -58,7 +62,11 @@ class SessionLog extends Component {
                 return `${minutes} minutes, ${seconds} seconds`
             }
         }
-        
+
+    }
+
+    showMoreInfo = session => {
+        console.log(session)
     }
 
     renderSessions = () => {
@@ -68,21 +76,33 @@ class SessionLog extends Component {
             const startDate = moment.unix(session.times[0].started/1000).format("MM/DD/YYYY")
             const finishDate = moment.unix(session.times[session.times.length-1].finished/1000).format("MM/DD/YYYY")
 
-            const startTime = moment.unix(session.times[0].started/1000).format("HH:mm, A")
+            const startTime = moment.unix(session.times[0].started/1000).format("HH:mm A")
             const finishTime = moment.unix(session.times[session.times.length-1].finished/1000).format("HH:mm A")
 
             return (
                 <tr key={session.created_at}>
                     <td>{startDate}</td>
-                    <td>{session.activity}</td>
+                    <td>
+                        <span>
+                            {session.activity.charAt(0).toUpperCase() + session.activity.substr(1)}
+                        </span>
+                    </td>
                     <td>{time}</td>
                     <td>
                         <div>{startTime}</div>
                     </td>
                     <td>
                         <div>{finishTime}</div>
-                    </td>                    
-                    <td>{session.times.length - 1}</td>                    
+                    </td>
+                    <td>{session.times.length - 1}</td>
+                    <td >
+                        <span
+                            onClick={() => this.showMoreInfo(session)}
+                            style={{'fontWeight': '700', 'color': '#6b84d0', 'cursor': 'pointer'}}
+                        >
+                        More Info
+                        </span>
+                    </td>
                 </tr>
             )
         })
@@ -92,11 +112,12 @@ class SessionLog extends Component {
                 <thead>
                     <tr>
                         <th>Date</th>
-                        <th>Activity</th>
+                        <th style={{width: '20rem', 'wordWrap': 'break-word'}}>Activity</th>
                         <th>Total Time</th>
                         <th>Started</th>
-                        <th>Finished</th>                        
-                        <th>Number of Breaks</th>
+                        <th>Finished</th>
+                        <th>Breaks</th>
+                        <th>More Info</th>
                     </tr>
                 </thead>
             )
@@ -106,16 +127,25 @@ class SessionLog extends Component {
             <SessionLogTable>
                 {sessionTableHeader()}
                 <tbody>
-                    {sessionRows}                    
+                    {sessionRows}
                 </tbody>
             </SessionLogTable>
         )
     }
 
     render() {
-        console.log(this.state.sessions)
+
+        if (this.state.loading) return null
+
+        if (!this.props.state.user) return <h1>Sign in to see log</h1>
+
+        if (!this.state.sessions.length) return <h1>No sessions recorded</h1>
+
         return (
             <SessionLogContainer>
+                <Modal open={this.state.openMoreInfo} onClose={() => this.setState({openMoreInfo: false})} >
+                    Modal
+                </Modal>
                 {this.renderSessions()}
             </SessionLogContainer>
         )
