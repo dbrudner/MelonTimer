@@ -50,7 +50,8 @@ class Session extends Component {
         )
     }
 
-    startRunningTimer= () => {
+    startRunningTimer= event => {
+        event.preventDefault();
         this.setState({
             sessionStarted: true,
             currentSession: {
@@ -128,14 +129,14 @@ class Session extends Component {
             <SessionContainer>
                 <div>
                     <h2>Start a Session</h2>
-                    <div>
+                    <form onSubmit={this.startRunningTimer}>
                         {this.renderDatalist('What are you going to do?', this.state.activity, this.state.activities)}
                         <div>
-                            <StartTimer onClick={this.startRunningTimer}>
+                            <StartTimer>
                                 Start Session
                             </StartTimer>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </SessionContainer>
         )
