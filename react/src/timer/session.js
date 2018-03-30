@@ -54,8 +54,8 @@ class Session extends Component {
         this.setState({
             sessionStarted: true,
             currentSession: {
-                timeStarted: Date.now(),
-                timeFinished: null
+                started: Date.now(),
+                finished: null
             }
         })
     }
@@ -65,7 +65,7 @@ class Session extends Component {
 
         // Adds current session segment to session
         this.setState({
-            currentSession: {...this.state.currentSession, timeFinished: Date.now()}
+            currentSession: {...this.state.currentSession, finished: Date.now()}
         }, () => {
             this.setState({
                 times: [...this.state.times, this.state.currentSession]
@@ -88,21 +88,19 @@ class Session extends Component {
         // Add final session segment
         this.setState({
             sessionFinished: true,
-            currentSession: {...this.state.currentSession, timeFinished: Date.now()}
+            currentSession: {...this.state.currentSession, finished: Date.now()}
         }, () => {
             this.setState({
                 times: [...this.state.times, this.state.currentSession]
             }, () => {
 
                 const userId = this.props.state.user._id
-                console.log(userId)
                 // Prepare object for post
                 const session = {
                     activity: this.state.activity,
                     times: this.state.times,
                     userId
                 }
-
                 // Post new session
                 axios.post('/new/session', session)
                 .then(res => {

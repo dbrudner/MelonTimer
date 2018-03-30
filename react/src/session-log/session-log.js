@@ -11,14 +11,14 @@ class SessionLog extends Component {
         }
     }
 
-    componentWillReceiveProps(nextProps) {
-        axios.get(`/sessions/${nextProps.state.user._id}`)
+    getSessions = userId => {
+        axios.get(`/sessions/${userId}`)
         .then(res => {
             let sessions = res.data
             sessions = sessions.map(session => {
                 console.log(session)
                 const totalTime = session.times.reduce((acc, sessionSegment) => {
-                    return acc + sessionSegment.timeFinished - sessionSegment.timeStarted
+                    return acc + sessionSegment.finished - sessionSegment.started
                 }, 0)
                 return {
                     ...session,
@@ -29,13 +29,24 @@ class SessionLog extends Component {
         })
     }
 
+    componentDidMount() {
+        if (this.props.state.user) {
+            this.getSessions(this.props.state.user._id)
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.getSessions(nextProps.state.user._id)
+        
+    }
+
     renderSessions = () => {
         const sessionRows = this.state.sessions.map(session => {
             return (
                 <tr key={session.created_at}>
                     <td>{session.activity}</td>
                     <td>{session.totalTime}</td>
-                    <td>{session.times.length}</td>                    
+                    <td>{session.times.length - 1}</td>                    
                 </tr>
             )
         })
