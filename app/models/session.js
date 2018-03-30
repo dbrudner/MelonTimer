@@ -8,9 +8,7 @@ const sessionSchema = new Schema({
         ref: 'User'
     },
     activity: String,
-    timeElapsed: Number, //in seconds? miliseconds? not sure yet.
-    timeStarted: Date,
-    timeFinished: Date,
+    times: Array,
     created_at: { type: Date, required: true, default: Date.now }
 });
 

@@ -12,9 +12,13 @@ class Timer extends Component {
         this.state = {
             activity: '',
             activities: [],
-            timerStarted: false,
-            timeStarted: null,
-            timeFinished: null
+            sessionStarted: false,
+            sessionFinished: false,
+            times: [],
+            currentSession: {
+                started: null,
+                finished: null
+            }
         }
     }
 
@@ -50,21 +54,78 @@ class Timer extends Component {
     }
 
     startRunningTimer= () => {
-        console.log('started')
         this.setState({
-            timerStarted: true,
-            timeStarted: Date.now()
+            sessionStarted: true,
+            currentSession: {
+                timeStarted: Date.now(),
+                timeFinished: null
+            }
         })
     }
 
+    // Pause timer for break
+    pauseTimer = () => {
+
+        // Adds current session segment to session
+        this.setState({
+            currentSession: {...this.state.currentSession, timeFinished: Date.now()}
+        }, () => {
+            this.setState({
+                times: [...this.state.times, this.state.currentSession]
+            })
+        })
+    }
+
+    // Starts timer when break is finished
+    // Starts a new session segment
+    startTimer = () => {
+        this.setState({
+            currentSession: {
+                started: Date.now(),
+                finished: null
+            }
+        })
+    }
+
+    sessionFinished = () => {
+
+        // Add final session segment
+        this.setState({
+            sessionFinished: true,
+            currentSession: {...this.state.currentSession, timeFinished: Date.now()}
+        }, () => {
+            this.setState({
+                times: [...this.state.times, this.state.currentSession]
+            }, () => {
+                const session = {
+                    activity: this.state.activity,
+                    times: this.state.times
+                }
+    
+                axios.post('/new/session', session)
+                .then(res => {
+                    console.log(res)
+                })
+            })
+        })
+
+
+        // Prepare object for post
+
+    }
+
     render() {
-        console.log(this.state)
         // If user isn't signed in, inform them to sign in or register
         if (!this.props.state.user) return <NotSignedIn/>
 
+        // If session is finished, make request and show results
+        if (this.state.sessionFinished) {
+            return <div>Finished</div>
+        }
+
         // If timer is started, start a timer and return this component instead
-        if (this.state.timerStarted) {
-            return <RunningTimer props={this.state} />
+        if (this.state.sessionStarted) {
+            return <RunningTimer sessionFinished={this.sessionFinished} pauseTimer={this.pauseTimer} startTimer={this.startTimer} />
         }
 
         return (
