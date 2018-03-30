@@ -1,11 +1,11 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import NotSignedIn from './not-signed-in'
-import {TimerContainer, StartTimer} from './styles'
+import {TimerContainer, StartTimer, SessionContainer} from './styles'
 import axios from 'axios'
 import RunningTimer from './running-timer'
 
-class Timer extends Component {
+class Session extends Component {
 
     constructor(props) {
         super(props)
@@ -94,12 +94,12 @@ class Timer extends Component {
                 times: [...this.state.times, this.state.currentSession]
             }, () => {
 
-                // Prepare object for post                
+                // Prepare object for post
                 const session = {
                     activity: this.state.activity,
                     times: this.state.times
                 }
-    
+
                 // Post new session
                 axios.post('/new/session', session)
                 .then(res => {
@@ -120,24 +120,23 @@ class Timer extends Component {
 
         // If timer is started, start a timer and return this component instead
         if (this.state.sessionStarted) {
-            return <RunningTimer sessionFinished={this.sessionFinished} pauseTimer={this.pauseTimer} startTimer={this.startTimer} />
+            return <RunningTimer activity={this.state.activity} sessionFinished={this.sessionFinished} pauseTimer={this.pauseTimer} startTimer={this.startTimer} />
         }
 
         return (
-            <TimerContainer>
+            <SessionContainer>
                 <div>
-                    <h1>Timer</h1>
+                    <h2>Start a Session</h2>
                     <div>
                         {this.renderDatalist('What are you going to do?', this.state.activity, this.state.activities)}
                         <div>
-                        <StartTimer onClick={this.startRunningTimer}>
-                            Start Session
-                        </StartTimer>
+                            <StartTimer onClick={this.startRunningTimer}>
+                                Start Session
+                            </StartTimer>
                         </div>
                     </div>
                 </div>
-                
-            </TimerContainer>
+            </SessionContainer>
         )
     }
 }
@@ -149,4 +148,4 @@ function mapStateToProps(state) {
 }
 
 
-export default connect(mapStateToProps)(Timer)
+export default connect(mapStateToProps)(Session)

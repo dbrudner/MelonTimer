@@ -7,7 +7,7 @@ import {
 
 import Home from './home/home'
 import Navbar from './navbar/navbar'
-import Timer from './timer/timer'
+import Session from './timer/session'
 
 class App extends Component {
     render() {
@@ -15,7 +15,7 @@ class App extends Component {
             <Router>
                 <div>
                     <Navbar/>
-                    <Route exact path='/' component={Timer} />
+                    <Route exact path='/' component={Session} />
                 </div>
             </Router>
 		);

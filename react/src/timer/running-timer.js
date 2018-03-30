@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {StopWatch, Buttons} from './styles'
+import {Timer, Buttons} from './styles'
 
 class RunningTimer extends Component {
 
@@ -81,12 +81,15 @@ class RunningTimer extends Component {
         const time = this.state
 
         if (this.state.breaks > 20) {
-            return <StopWatch>You've taken too many breaks. This session has been recorded, please start a new session.</StopWatch>
+            return <Timer>You've taken too many breaks. This session has been recorded, please start a new session.</Timer>
         }
 
         return (
-            <StopWatch>
+            <Timer>
                 <div>
+                    <h2>
+                        {this.props.activity.charAt(0).toUpperCase() + this.props.activity.substr(1)}
+                    </h2>
                     <div>
                         {time.hours}:
                         {time.minutes}:
@@ -98,7 +101,8 @@ class RunningTimer extends Component {
                         <button onClick={this.props.sessionFinished}>Finish and Log Session</button>
                     </Buttons>
                 </div>
-            </StopWatch>
+                
+            </Timer>
         )
     }
 }
