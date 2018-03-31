@@ -1,5 +1,19 @@
 import styled from 'styled-components'
 
+export const ActivityInfoContainer = styled.div`
+    font-size: 2.4rem;
+    padding: 3rem;
+
+    h1 {
+        margin: 0;
+        text-transform: uppercase;
+    }
+
+    div span {
+        font-weight: 700;
+    }
+`
+
 export const SessionLogContainer = styled.div`
     margin: 2rem;
     display: block;

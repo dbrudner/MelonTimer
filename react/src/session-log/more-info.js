@@ -29,7 +29,7 @@ export default function MoreInfo(props) {
     console.log(props)
 
     const formatTime = unixTime => {
-        return moment.unix(unixTime/1000).format("HH:mm A")
+        return moment.unix(unixTime/1000).format("HH:mm:ss A")
     }
 
     const renderTimes = () => {
@@ -70,13 +70,6 @@ export default function MoreInfo(props) {
                 <ul>
                     {renderTimes()}
                 </ul>
-            </div>
-            <hr/>
-            <div>
-                Total Time: {props.convertTime(props.session.totalTime)}
-            </div>
-            <div>
-                Total Break Time: {props.convertTime(breakTime())}
             </div>
         </MoreInfoContainer>
     )

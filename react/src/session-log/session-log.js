@@ -6,6 +6,7 @@ import Modal from 'react-responsive-modal'
 import {SessionLogContainer, SessionLogTable} from './styles'
 
 import MoreInfo from './more-info'
+import ActivityInfo from './activity-info'
 
 class SessionLog extends Component {
     constructor(props) {
@@ -15,7 +16,9 @@ class SessionLog extends Component {
             openMoreInfo: false,
             loading: true,
             showMoreInfo: false,
-            activeSession: {}
+            showActivityInfo: false,            
+            activeSession: {},
+            activity: ''
         }
     }
 
@@ -74,6 +77,13 @@ class SessionLog extends Component {
         this.setState({showMoreInfo: true, activeSession: session})
     }
 
+    showActivityInfo = activity => {
+        this.setState({
+            showActivityInfo: true,
+            activity
+        })
+    }
+
     renderSessions = () => {
         const sessionRows = this.state.sessions.map(session => {
             const time = this.convertTime(session.totalTime)
@@ -84,11 +94,16 @@ class SessionLog extends Component {
             const startTime = moment.unix(session.times[0].started/1000).format("HH:mm A")
             const finishTime = moment.unix(session.times[session.times.length-1].finished/1000).format("HH:mm A")
 
+            const clickable = {'fontWeight': '700', 'color': '#6b84d0', 'cursor': 'pointer'}
+
             return (
                 <tr key={session.created_at}>
                     <td>{startDate}</td>
                     <td>
-                        <span>
+                        <span 
+                            onClick={() => this.showActivityInfo(session.activity)}
+                            style={clickable}
+                        >
                             {session.activity.charAt(0).toUpperCase() + session.activity.substr(1)}
                         </span>
                     </td>
@@ -103,7 +118,7 @@ class SessionLog extends Component {
                     <td >
                         <span
                             onClick={() => this.showMoreInfo(session)}
-                            style={{'fontWeight': '700', 'color': '#6b84d0', 'cursor': 'pointer'}}
+                            style={clickable}
                         >
                         More Info
                         </span>
@@ -148,6 +163,9 @@ class SessionLog extends Component {
 
         return (
             <SessionLogContainer>
+                <Modal open={this.state.showActivityInfo} onClose={() => this.setState({showActivityInfo: false})} >
+                    <ActivityInfo activity={this.state.activity} sessions={this.state.sessions} convertTime={this.convertTime}/>
+                </Modal>
                 <Modal open={this.state.showMoreInfo} onClose={() => this.setState({showMoreInfo: false})} >
                     <MoreInfo session={this.state.activeSession} convertTime={this.convertTime}/>
                 </Modal>
