@@ -2,8 +2,10 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import axios from 'axios'
 import moment from 'moment'
-import {SessionLogContainer, SessionLogTable} from './styles'
 import Modal from 'react-responsive-modal'
+import {SessionLogContainer, SessionLogTable} from './styles'
+
+import MoreInfo from './more-info'
 
 class SessionLog extends Component {
     constructor(props) {
@@ -11,7 +13,9 @@ class SessionLog extends Component {
         this.state = {
             sessions: [],
             openMoreInfo: false,
-            loading: true
+            loading: true,
+            showMoreInfo: false,
+            activeSession: {}
         }
     }
 
@@ -22,6 +26,8 @@ class SessionLog extends Component {
             sessions = sessions.map(session => {
                 console.log(session)
                 const totalTime = session.times.reduce((acc, sessionSegment) => {
+                    console.log(this.convertTime(sessionSegment.finished))
+                    console.log(this.convertTime(sessionSegment.started))
                     return acc + sessionSegment.finished - sessionSegment.started
                 }, 0)
                 return {
@@ -62,11 +68,10 @@ class SessionLog extends Component {
                 return `${minutes} minutes, ${seconds} seconds`
             }
         }
-
     }
 
     showMoreInfo = session => {
-        console.log(session)
+        this.setState({showMoreInfo: true, activeSession: session})
     }
 
     renderSessions = () => {
@@ -143,8 +148,8 @@ class SessionLog extends Component {
 
         return (
             <SessionLogContainer>
-                <Modal open={this.state.openMoreInfo} onClose={() => this.setState({openMoreInfo: false})} >
-                    Modal
+                <Modal open={this.state.showMoreInfo} onClose={() => this.setState({showMoreInfo: false})} >
+                    <MoreInfo session={this.state.activeSession} convertTime={this.convertTime}/>
                 </Modal>
                 {this.renderSessions()}
             </SessionLogContainer>
