@@ -19,7 +19,7 @@ const HomeContainer = styled.div`
     p {
         text-align: center;
         color: gray;
-        font-size: 2rem;
+        font-size: 1.6rem;
     }
 `
 
@@ -30,8 +30,12 @@ export default class Home extends Component {
             <HomeContainer>
                 <h1>Welcome to MelonTimer</h1>
                 <h3>
-                    Keep track and record lengths of time for anything you're doing.
+                    Keep track and record lengths of time for anything you're doing
                 </h3>
+                <p>
+                    Log in or Sign Up and click start new session to get started                    
+                </p>
+
             </HomeContainer>
         )
     }

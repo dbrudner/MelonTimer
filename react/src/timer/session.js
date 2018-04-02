@@ -60,10 +60,12 @@ class Session extends Component {
         )
     }
 
+    // Starts initial time. Triggers timer to render and starts current session
     startRunningTimer= event => {
         event.preventDefault();
         this.setState({
             sessionStarted: true,
+            startTime: Date.now(),            
             currentSession: {
                 started: Date.now(),
                 finished: null
@@ -134,7 +136,7 @@ class Session extends Component {
 
         // If timer is started, start a timer and return this component instead
         if (this.state.sessionStarted) {
-            return <RunningTimer activity={this.state.activity} sessionFinished={this.sessionFinished} pauseTimer={this.pauseTimer} startTimer={this.startTimer} />
+            return <RunningTimer startTime={this.state.startTime} activity={this.state.activity} sessionFinished={this.sessionFinished} pauseTimer={this.pauseTimer} startTimer={this.startTimer} />
         }
 
         return (

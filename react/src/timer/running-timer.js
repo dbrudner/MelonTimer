@@ -89,6 +89,7 @@ class RunningTimer extends Component {
 
     render() {
         const time = this.state
+        console.log(this.props.startTime)
 
         const pausedStyle = {
             'backgroundColor': 'red'
