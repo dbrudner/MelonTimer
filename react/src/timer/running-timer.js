@@ -1,5 +1,7 @@
 import React, {Component} from 'react'
-import {Timer, Buttons} from './styles'
+import {Timer, Buttons, TimeBox} from './styles'
+import RaisedButton from 'material-ui/RaisedButton'
+
 
 class RunningTimer extends Component {
 
@@ -71,38 +73,66 @@ class RunningTimer extends Component {
 
     renderPauseOrStartButton = () => {
         if (!this.state.timerPaused) {
-            return <button onClick={this.pauseTimer}>Take a Break (pause timer)</button>
+            return (
+                <RaisedButton
+                    secondary
+                    onClick={this.pauseTimer}
+                    label='Take a Break (pause timer)'
+                />
+            )
         } else {
-            return <button onClick={this.startTimer}>Finished Break (start timer)</button>
+            return (
+            <RaisedButton onClick={this.startTimer}>Finished Break (start timer)</RaisedButton>
+        )
         }
     }
 
     render() {
         const time = this.state
 
+        const pausedStyle = {
+            'backgroundColor': 'red'
+        }
+
+        const runningStyle = {
+            'backgroundColor': 'green'
+        }
+
         if (this.state.breaks > 20) {
             return <Timer>You've taken too many breaks. This session has been recorded, please start a new session.</Timer>
         }
 
         return (
-            <Timer>
-                <div>
+            <div className='text-center'>
+                 <Timer>
                     <h2>
-                        {this.props.activity.charAt(0).toUpperCase() + this.props.activity.substr(1)}
+                        {this.props.activity.charAt(0).toUpperCase() + this.props.activity.substr(1) || 'Activity'}
                     </h2>
-                    <div>
-                        {time.hours}:
-                        {time.minutes}:
+                    <hr/>
+                    <TimeBox>
+                        {(this.state.hours < 10 ? '0' + time.hours : time.hours)}:
+                        {(this.state.minutes < 10 ? '0' + time.minutes : time.minutes)}:
                         {(this.state.seconds < 10 ? '0' + time.seconds : time.seconds)}:
                         {time.deciseconds/10}
-                    </div>
-                    <Buttons>
-                        {this.renderPauseOrStartButton()}
-                        <button onClick={this.props.sessionFinished}>Finish and Log Session</button>
-                    </Buttons>
-                </div>
-                
-            </Timer>
+                    </TimeBox>
+                        <RaisedButton
+                            // style={this.state.timerPaused ? {...pausedStyle} : {...runningStyle}}
+                            backgroundColor={this.state.timerPaused ? '#7ca268' : '#ff9c9c'}
+                            labelColor='#f3f3f3'
+                            onClick={this.state.timerPaused ? this.startTimer : this.pauseTimer}
+                            label={!this.state.timerPaused ? 'Take a break (pause timer)' : 'Finished Break (start timer)'}
+                            fullWidth
+                        />
+                        <RaisedButton
+                            label='Finish and Log Session'
+                            primary
+                            onClick={this.props.sessionFinished}
+                            style={{marginTop: '1.5rem'}}
+                            fullWidth
+                        />
+                </Timer>
+            </div>
+
         )
     }
 }

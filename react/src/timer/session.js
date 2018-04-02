@@ -15,7 +15,7 @@ class Session extends Component {
         this.state = {
             activity: '',
             activities: [],
-            sessionStarted: false,
+            sessionStarted: true,
             sessionFinished: false,
             times: [],
             currentSession: {
@@ -47,10 +47,10 @@ class Session extends Component {
 
         return (
             <div style={style}>
-                <div style={{fontSize: '1.6rem'}}>
+                <div style={{fontSize: '1.6rem', marginBottom: '1.5rem'}}>
                     {label}
                 </div>
-                <input style={{fontSize: '2.8rem', paddingTop: '-1rem', }} list={key} value={this.state[key]} onChange={event => this.setState({activity: event.target.value.toLowerCase()})} />
+                <input style={{fontSize: '2.5rem', paddingTop: '-1rem'}} list={key} value={this.state[key]} onChange={event => this.setState({activity: event.target.value.toLowerCase()})} />
                 <datalist id={key}>
                     {renderOptions(options)}
                 </datalist>
@@ -140,7 +140,9 @@ class Session extends Component {
                 <SessionContainer>
                     <form onSubmit={this.startRunningTimer}>
                     {this.renderDatalist('What are you going to do?', this.state.activity, this.state.activities)}
-                        <StartSession>
+                        <StartSession
+                            type='submit'
+                        >
                             Start
                         </StartSession>
                     </form>
