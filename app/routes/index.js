@@ -13,6 +13,9 @@ module.exports = function (app, passport) {
     // Get all sessions from a user
     sessionRoutes.getSessions(app, '/sessions/:userId')
 
+    // Delete session
+    sessionRoutes.deleteSession(app, '/delete/:sessionId')
+
     // Checks if a user is logged in
     userRoutes.test(app, '/test')
 

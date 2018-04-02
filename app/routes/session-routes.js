@@ -37,5 +37,19 @@ module.exports = {
                 res.json(sessions)
             })
         })
+    },
+
+    deleteSession: function(app, route) {
+        app.get(route, (req, res) => {
+            const sessionId = req.params.sessionId
+            console.log(sessionId)
+            db.Session.findOneAndRemove({'_id': sessionId})
+            .exec((error, result) => {
+                if (error) console.log(error)
+                console.log(result)
+                
+                res.json(result)
+            })
+        })
     }
 }

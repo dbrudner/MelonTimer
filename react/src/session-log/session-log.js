@@ -88,10 +88,19 @@ class SessionLog extends Component {
         })
     }
 
-    deleteSession =() => {
-        axios.post(`/delete/${this.state.activeDelete}`)
+    deleteSession = () => {
+        console.log('hey')
+        axios.get(`/delete/${this.state.activeDelete}`)
         .then(res => {
-            console.log(res)
+            let sessions = [...this.state.sessions]
+            sessions = sessions.filter(session => {
+                return session._id !== this.state.activeDelete
+            })
+            this.setState({
+                sessions,
+                activeDelete: null,
+                openDeleteModal: false
+            })
         })
         .catch(err => {
             console.log(err)
