@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom'
 
 import Home from './home/home'
-import Navbar from './navbar/navbar'
+import NavMediaQuery from './navbar/nav-media-query'
 import Session from './timer/session'
 import SessionLog from './session-log/session-log'
 
@@ -15,10 +15,10 @@ class App extends Component {
 		return (
             <Router>
                 <div>
-                    <Navbar/>
-                        <Route exact path='/' component={Home} />
-                        <Route exact path='/session' component={Session} />
-                        <Route exact path='/sessions' component={SessionLog} />
+                    <NavMediaQuery/>
+                    <Route exact path='/' component={Home} />
+                    <Route exact path='/session' component={Session} />
+                    <Route exact path='/sessions' component={SessionLog} />
                 </div>
             </Router>
 		);

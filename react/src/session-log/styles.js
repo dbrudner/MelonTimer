@@ -50,7 +50,7 @@ export const SessionLogTable = styled.table`
         background-color: black;
         color: white;
         text-transform: uppercase;
-        padding: 1rem 3rem;
+        padding: 1rem;
     }
 `
 
@@ -63,9 +63,9 @@ export const Info = styled.div`
     background-color: white;
     padding: .3rem 1rem;
     border-radius: 5px;
-    margin-right: 1rem;
     border: 1px solid #b4b3b3;
     font-size: 1.6rem;
+    width: 5rem;
 
     :hover {
         opacity: 1;
@@ -86,7 +86,7 @@ export const Delete = styled.div`
     padding: .3rem 1rem;
     border-radius: 5px;
     font-size: 1.6rem;
-
+    width: 5rem;
     :hover {
         opacity: 1;
         transition: all .3s

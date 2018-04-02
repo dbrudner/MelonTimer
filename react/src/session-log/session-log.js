@@ -77,6 +77,40 @@ class SessionLog extends Component {
         }
     }
 
+    renderTime = ms => {
+        let seconds = Math.floor(ms/1000)
+        if (seconds < 60) {
+            return <div>{`${seconds} Seconds`}</div>
+        } else {
+            let minutes = Math.floor(seconds/60)
+            seconds = seconds % 60
+
+            if (minutes >= 60) {
+                const hours = Math.floor(minutes/60)
+                minutes = minutes % 60;
+                return (
+                    <div>
+                        {`${hours} ${hours > 1 ? 'Hours' : 'Hour'}`}
+                        {`${minutes} ${minutes > 1 ? 'Minutes' : 'Minute'}`}
+                        {`${seconds} ${seconds > 1 ? 'Seconds' : 'Second'}`}
+                    </div>
+                )
+
+            } else {
+                return (
+                    <div>
+                        <div>
+                            {`${minutes} ${minutes > 1 ? 'Minutes' : 'Minute'}`}
+                        </div>
+                        <div>
+                            {`${seconds} ${seconds > 1 ? 'Seconds' : 'Second'}`}
+                        </div>
+                    </div>
+                )
+            }
+        }
+    }
+
     showMoreInfo = session => {
         this.setState({showMoreInfo: true, activeSession: session})
     }
@@ -131,7 +165,7 @@ class SessionLog extends Component {
                             {session.activity.charAt(0).toUpperCase() + session.activity.substr(1)}
                         </span>
                     </td>
-                    <td>{time}</td>
+                    <td>{this.renderTime(session.totalTime)}</td>
                     <td>
                         <div>{startTime}</div>
                     </td>
@@ -139,13 +173,17 @@ class SessionLog extends Component {
                         <div>{finishTime}</div>
                     </td>
                     <td>{session.times.length - 1}</td>
-                    <td >
-                        <Info onClick={() => this.showMoreInfo(session)} >
-                            Info
-                        </Info>
-                        <Delete onClick={() => this.setState({openDeleteModal: true, activeDelete: session._id})}>
-                            Del
-                        </Delete>
+                    <td>
+                        <div className='text-center'>
+                            <Info onClick={() => this.showMoreInfo(session)} >
+                                Info
+                            </Info>
+                        </div>
+                        <div className='text-center'>
+                            <Delete onClick={() => this.setState({openDeleteModal: true, activeDelete: session._id})}>
+                                Del
+                            </Delete>
+                        </div>
                     </td>
                 </tr>
             )
@@ -156,10 +194,10 @@ class SessionLog extends Component {
                 <thead>
                     <tr>
                         <th style={{width: '7rem', 'wordWrap': 'break-word'}}>Date</th>
-                        <th style={{width: '20rem', 'wordWrap': 'break-word'}}>Activity</th>
-                        <th style={{width: '20rem', 'wordWrap': 'break-word'}}>Total Time</th>
-                        <th style={{width: '7rem', 'wordWrap': 'break-word'}}>Started</th>
-                        <th style={{width: '7rem', 'wordWrap': 'break-word'}}>Finished</th>
+                        <th style={{width: '7rem', 'wordWrap': 'break-word'}}>Activity</th>
+                        <th style={{width: '7rem', 'wordWrap': 'break-word'}}>Total Time</th>
+                        <th style={{width: '5rem', 'wordWrap': 'break-word'}}>Started</th>
+                        <th style={{width: '5rem', 'wordWrap': 'break-word'}}>Finished</th>
                         <th style={{width: '7rem', 'wordWrap': 'break-word'}}>Breaks</th>
                         <th style={{width: '7rem', 'wordWrap': 'break-word'}}>More</th>
                     </tr>
@@ -191,8 +229,8 @@ class SessionLog extends Component {
               onClick={this.deleteSession}
             />,
         ];
-            
-        
+
+
 
         if (this.state.loading) return null
 
