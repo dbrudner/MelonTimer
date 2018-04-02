@@ -188,7 +188,7 @@ class SessionLog extends Component {
             return (
                 <thead>
                     <tr>
-                        <th style={{width: '5rem', 'wordWrap': 'break-word'}}>Date</th>
+                        <th style={{width: '6rem', 'wordWrap': 'break-word'}}>Date</th>
                         <th style={{width: '7rem', 'wordWrap': 'break-word'}}>Activity</th>
                         <th style={{width: '10rem', 'wordWrap': 'break-word'}}>Total Time</th>
                         <th style={{width: '5rem', 'wordWrap': 'break-word'}}>Started</th>
