@@ -1,9 +1,12 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import NotSignedIn from './not-signed-in'
-import {TimerContainer, StartTimer, SessionContainer} from './styles'
+import {TimerContainer, StartSession, SessionContainer} from './styles'
 import axios from 'axios'
 import RunningTimer from './running-timer'
+
+import AutoComplete from 'material-ui/AutoComplete'
+import Paper from 'material-ui/Paper'
 
 class Session extends Component {
 
@@ -31,6 +34,11 @@ class Session extends Component {
 
     renderDatalist = (label, key, options) => {
 
+        const style = {
+            display: 'inline-block',
+            fontSize: '2.rem'
+        }
+
         const renderOptions = options => {
             return options.map(option => {
                 return <option value={option} key={option}/>
@@ -38,11 +46,11 @@ class Session extends Component {
         }
 
         return (
-            <div>
-                <div>
+            <div style={style}>
+                <div style={{fontSize: '1.6rem'}}>
                     {label}
                 </div>
-                <input list={key} value={this.state[key]} onChange={event => this.setState({activity: event.target.value.toLowerCase()})} />
+                <input style={{fontSize: '2.8rem', paddingTop: '-1rem', }} list={key} value={this.state[key]} onChange={event => this.setState({activity: event.target.value.toLowerCase()})} />
                 <datalist id={key}>
                     {renderOptions(options)}
                 </datalist>
@@ -112,6 +120,8 @@ class Session extends Component {
     }
 
     render() {
+
+
         // If user isn't signed in, inform them to sign in or register
         if (!this.props.state.user) return <NotSignedIn/>
 
@@ -126,19 +136,16 @@ class Session extends Component {
         }
 
         return (
-            <SessionContainer>
-                <div>
-                    <h2>Start a Session</h2>
+            <div className='text-center'>
+                <SessionContainer>
                     <form onSubmit={this.startRunningTimer}>
-                        {this.renderDatalist('What are you going to do?', this.state.activity, this.state.activities)}
-                        <div>
-                            <StartTimer>
-                                Start Session
-                            </StartTimer>
-                        </div>
+                    {this.renderDatalist('What are you going to do?', this.state.activity, this.state.activities)}
+                        <StartSession>
+                            Start
+                        </StartSession>
                     </form>
-                </div>
-            </SessionContainer>
+                </SessionContainer>
+            </div>
         )
     }
 }

@@ -18,3 +18,7 @@ body {
 .text-center {
   text-align: center;
 }
+
+input:not([type]) {
+  padding: 0;
+}
