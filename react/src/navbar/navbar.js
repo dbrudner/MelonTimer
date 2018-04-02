@@ -18,10 +18,21 @@ const NavbarContainer = styled.div`
     font-size: 2rem;
     padding: 2rem;
     border-bottom: 5px solid #c6ffd8;
+    
 `
 
 const Brand = styled.div`
     display: inline-block;
+
+    a {
+        color: #c6ffd8;
+        text-decoration: none;
+        font-weight: 700;
+        border-radius: 5px;
+        font-size: 2.6rem;
+        background-color: #f6a0a0;
+        padding: 1rem;
+    }
 `
 
 const NavLinks = styled.div`
@@ -43,10 +54,9 @@ const NavLinks = styled.div`
 
             a {
                 text-decoration: none;
-                color: #f26a6a;
                 display: inline-block;
                 transition: all .3s;
-
+                font-weight: 700;
 
                 :hover {
                     color: #ffc100;
@@ -122,15 +132,18 @@ class Navbar extends Component {
                 {this.props.state.openSignUp ? <Signup /> : null}
                 {this.props.state.openLogin ? <LoginModal /> : null}
                 <NavbarContainer>
+                    <div>
                     <Brand>
-                        Lifetimer
-                        <NavLinks>
+                        <Link to='/'>MelonTimer</Link>
+                    </Brand>
+                    <NavLinks>
                             <ul>
                                 <li><Link to='/sessions'>Session Log</Link></li>
                                 <li><Link to='/session'>Start New Session</Link></li>
                             </ul>
                         </NavLinks>
-                    </Brand>
+                    </div>
+                    
 
                     <UserContainer>
                         {this.renderInfoOrLogin()}

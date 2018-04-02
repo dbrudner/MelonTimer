@@ -3,10 +3,12 @@ import {connect} from 'react-redux'
 import axios from 'axios'
 import moment from 'moment'
 import Modal from 'react-responsive-modal'
-import {SessionLogContainer, SessionLogTable} from './styles'
+import {SessionLogContainer, SessionLogTable, Info, Delete} from './styles'
 
 import MoreInfo from './more-info'
 import ActivityInfo from './activity-info'
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
 
 class SessionLog extends Component {
     constructor(props) {
@@ -16,9 +18,11 @@ class SessionLog extends Component {
             openMoreInfo: false,
             loading: true,
             showMoreInfo: false,
-            showActivityInfo: false,            
+            showActivityInfo: false,
             activeSession: {},
-            activity: ''
+            activity: '',
+            activeDelete: null,
+            openDeleteModal: false
         }
     }
 
@@ -84,7 +88,18 @@ class SessionLog extends Component {
         })
     }
 
+    deleteSession =() => {
+        axios.post(`/delete/${this.state.activeDelete}`)
+        .then(res => {
+            console.log(res)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }
+
     renderSessions = () => {
+
         const sessionRows = this.state.sessions.map(session => {
             const time = this.convertTime(session.totalTime)
 
@@ -100,7 +115,7 @@ class SessionLog extends Component {
                 <tr key={session.created_at}>
                     <td>{startDate}</td>
                     <td>
-                        <span 
+                        <span
                             onClick={() => this.showActivityInfo(session.activity)}
                             style={clickable}
                         >
@@ -116,12 +131,12 @@ class SessionLog extends Component {
                     </td>
                     <td>{session.times.length - 1}</td>
                     <td >
-                        <span
-                            onClick={() => this.showMoreInfo(session)}
-                            style={clickable}
-                        >
-                        More Info
-                        </span>
+                        <Info onClick={() => this.showMoreInfo(session)} >
+                            Info
+                        </Info>
+                        <Delete onClick={() => this.setState({openDeleteModal: true, activeDelete: session._id})}>
+                            Del
+                        </Delete>
                     </td>
                 </tr>
             )
@@ -131,13 +146,13 @@ class SessionLog extends Component {
             return (
                 <thead>
                     <tr>
-                        <th>Date</th>
+                        <th style={{width: '7rem', 'wordWrap': 'break-word'}}>Date</th>
                         <th style={{width: '20rem', 'wordWrap': 'break-word'}}>Activity</th>
-                        <th>Total Time</th>
-                        <th>Started</th>
-                        <th>Finished</th>
-                        <th>Breaks</th>
-                        <th>More Info</th>
+                        <th style={{width: '20rem', 'wordWrap': 'break-word'}}>Total Time</th>
+                        <th style={{width: '7rem', 'wordWrap': 'break-word'}}>Started</th>
+                        <th style={{width: '7rem', 'wordWrap': 'break-word'}}>Finished</th>
+                        <th style={{width: '7rem', 'wordWrap': 'break-word'}}>Breaks</th>
+                        <th style={{width: '7rem', 'wordWrap': 'break-word'}}>More</th>
                     </tr>
                 </thead>
             )
@@ -155,6 +170,21 @@ class SessionLog extends Component {
 
     render() {
 
+        const actions = [
+            <FlatButton
+              label="Cancel"
+              primary={true}
+              onClick={() => this.setState({openDeleteModal: false})}
+            />,
+            <FlatButton
+              label="Delete"
+              primary={true}
+              onClick={this.deleteSession}
+            />,
+        ];
+            
+        
+
         if (this.state.loading) return null
 
         if (!this.props.state.user) return <h1>Sign in to see log</h1>
@@ -163,6 +193,15 @@ class SessionLog extends Component {
 
         return (
             <SessionLogContainer>
+               <Dialog
+                    title="Delete this session?"
+                    actions={actions}
+                    modal={false}
+                    open={this.state.openDeleteModal}
+                    onRequestClose={() => this.setState({openDeleteModal:false})}
+                >
+                Deleted sessions can never be retrieved.
+                </Dialog>
                 <Modal open={this.state.showActivityInfo} onClose={() => this.setState({showActivityInfo: false})} >
                     <ActivityInfo activity={this.state.activity} sessions={this.state.sessions} convertTime={this.convertTime}/>
                 </Modal>

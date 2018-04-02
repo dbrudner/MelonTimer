@@ -39,17 +39,58 @@ export const SessionLogTable = styled.table`
     }
 
     tr:nth-child(2n+1) {
-        background-color: #f3f3f3;
+        background-color: #f6a0a0;
     }
 
     tr:nth-child(2n+0) {
-        background-color: #d1e8ff;
+        background-color: #c6ffd8;
     }
 
     th {
-        background-color: #3e7bec;
+        background-color: black;
         color: white;
         text-transform: uppercase;
         padding: 1rem 3rem;
+    }
+`
+
+export const Info = styled.div`
+    display: inline-block;
+    color: #8888ff;
+    cursor: pointer;
+    transition: all .3s;
+    text-transform: uppercase;
+    background-color: white;
+    padding: .3rem 1rem;
+    border-radius: 5px;
+    margin-right: 1rem;
+    border: 1px solid #b4b3b3;
+    font-size: 1.6rem;
+
+    :hover {
+        opacity: 1;
+        transition: all .3s
+        color: white;
+        background-color: #8888ff;
+    }
+`
+
+export const Delete = styled.div`
+    display: inline-block;
+    border: 1px solid #b4b3b3;
+    color: #cc7878;
+    cursor: pointer;
+    transition: all .3s;
+    text-transform: uppercase;
+    background-color: white;
+    padding: .3rem 1rem;
+    border-radius: 5px;
+    font-size: 1.6rem;
+
+    :hover {
+        opacity: 1;
+        transition: all .3s
+        color: white;
+        background-color: #cc7878;
     }
 `
