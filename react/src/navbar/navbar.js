@@ -131,6 +131,7 @@ class Navbar extends Component {
     }
 
     render() {
+        
         return (
             <div>
                 {this.props.state.openSignUp ? <Signup /> : null}
@@ -140,12 +141,14 @@ class Navbar extends Component {
                     <Brand>
                         <Link to='/'>MelonTimer</Link>
                     </Brand>
-                        <NavLinks>
+                        {this.props.state.user ? <NavLinks>
                             <ul>
                                 <li><Link to='/sessions'>Session Log</Link></li>
                                 <li><Link to='/session'>Start New Session</Link></li>
                             </ul>
                         </NavLinks>
+                        : null}
+                        
                     </div>
                     
 
