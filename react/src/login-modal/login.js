@@ -3,7 +3,7 @@ import Modal from 'react-responsive-modal'
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import { openSignUp } from '../actions/index';
+import { openLogin } from '../actions/index';
 
 import Form from './form'
 
@@ -22,7 +22,7 @@ class Signup extends Component {
 
     onCloseModal = () => {
         this.setState({ open: false }, () => {
-            setTimeout(() => this.props.openSignUp(false), 300)
+            setTimeout(() => this.props.openLogin(false), 300)
         });
     };
 
@@ -31,7 +31,7 @@ class Signup extends Component {
         return (
             <div>
                 <Modal open={open} onClose={this.onCloseModal}>
-                    <Form closeModal={this.onCloseModal}/>
+                    <Form/>
                 </Modal>
             </div>
         );
@@ -45,7 +45,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({openSignUp: openSignUp}, dispatch)
+    return bindActionCreators({openLogin: openLogin}, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Signup)

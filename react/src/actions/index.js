@@ -21,3 +21,10 @@ export function openSignUp(boolean) {
         payload: boolean
     }
 }
+
+export function openLogin(boolean) {
+    return {
+        type: types.OPEN_LOGIN,
+        payload: boolean
+    }
+}

@@ -34,8 +34,6 @@ module.exports = {
             const userId = req.params.userId
             db.Session.find({'userId': userId})
             .exec((error, sessions) => {
-                console.log(error)
-                console.log(sessions)
                 res.json(sessions)
             })
         })

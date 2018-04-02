@@ -3,10 +3,14 @@ import styled from 'styled-components'
 import axios from 'axios'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import { Login, openSignUp } from '../actions/index';
+import { Login, openSignUp, openLogin } from '../actions/index';
 import {Link} from 'react-router-dom'
 
 import SignupButton from './signup-button'
+
+import TextField from 'material-ui/TextField'
+
+import RaisedButton from 'material-ui/RaisedButton'
 
 const SignupButtonContainer = styled.div`
     display: inline-block;
@@ -62,19 +66,50 @@ class LoginOrRegister extends Component {
         this.props.openSignUp(true)
     }
 
+    openLoginModal = () => {
+        this.props.openLogin(true)        
+    }
+
     render() {
-        console.log(this.props)
         return (
             <div>
-                <Form onSubmit={this.handleSubmit}>
-                    {this.state.loginFail ? <span>Wrong username or password</span> : null}
-                    <input value={this.state.username} type='text' onChange={event => {this.handleChange('username', event.target.value)}}/>
-                    <input value={this.state.password} type='password' onChange={event => {this.handleChange('password', event.target.value)}}/>
-                    <button type='submit'>Login</button>
+                <RaisedButton 
+                    label='Log In'
+                    primary
+                    onClick={this.openLoginModal}                    
+                    style={{marginRight: '3rem'}}                    
+                />
+                <RaisedButton 
+                    label='Signup'
+                    default
+                    onClick={this.signUp}
+                    style={{marginRight: '3rem'}}
+                />
+                {/* <Form onSubmit={this.handleSubmit}> */}
+                    {/* {this.state.loginFail ? <span>Wrong username or password</span> : null} */}
+                    {/* <TextField
+                        hintText="Username"
+                        floatingLabelFixed={true}
+                        value={this.state.username}
+                        onChange={event => {this.handleChange('username', event.target.value)}}
+                        floatingLabelStyle={{color: '#717171'}}
+                        hintStyle={{color: '#717171'}}
+                        style={{width: '10rem'}}
+                    />
+                    <TextField
+                        hintText="Password"
+                        floatingLabelFixed={true}
+                        value={this.state.password}
+                        onChange={event => {this.handleChange('password', event.target.value)}}
+                        floatingLabelStyle={{color: '#717171'}}
+                        hintStyle={{color: '#717171'}}
+                        style={{marginRight: '2rem', width: '10rem'}}
+                    /> */}
+                    {/* <button type='submit'>Login</button>
                 </Form>
                 <SignupButtonContainer>
                     <button onClick={this.signUp}> Sign up </button>
-                </SignupButtonContainer>
+                </SignupButtonContainer> */}
             </div>
         )
     }
@@ -87,7 +122,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({Login, openSignUp}, dispatch)
+    return bindActionCreators({Login, openSignUp, openLogin}, dispatch)
 }
 
 

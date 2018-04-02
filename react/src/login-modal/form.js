@@ -4,7 +4,7 @@ import axios from 'axios'
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import { Login, openSignUp } from '../actions/index';
+import { Login, openLogin } from '../actions/index';
 
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
@@ -35,8 +35,7 @@ class Form extends Component {
         this.state = {
             user: {
                 username: '',
-                password: '',
-                password_again: '',
+                password: ''
 
             },
             error: null,
@@ -80,26 +79,22 @@ class Form extends Component {
     handleChange = (name, value) => {this.setState({user: {...this.state.user, [name]: value}})}
 
     handleSubmit = event => {
+        console.log('submit')
+        
         event.preventDefault()
-        console.log(this.state)
-        if (this.state.user.password !== this.state.user.password_again) {
-            return this.setState({error: "Passwords don't match"})
-        }
-
         const user = this.state.user
-
-        axios.post('/signup', user)
+        axios.post('/login', user)
         .then(res => {
             console.log('sign up success')
             axios.get('/test')
             .then(res => {
                 this.props.Login(res.data)
-                this.props.closeModal()
+                this.props.openLogin(false)
             })
 
         }).catch (err => {
             this.setState({
-                error: 'Username taken'
+                error: 'Wrong username or password'
             })
             throw err
         })
@@ -108,7 +103,7 @@ class Form extends Component {
     render() {
         return (
             <FormContainer>
-                <h1>Sign Up</h1>
+                <h1>Login</h1>
                 <form onSubmit={this.handleSubmit}>
                     {this.renderAllInputs()}
                     <div>
@@ -116,7 +111,7 @@ class Form extends Component {
                     </div>
                     <RaisedButton
                         primary
-                        label='Create Account'
+                        label='Login'
                         fullWidth
                         style={{marginTop: '5rem'}}
                         type='submit'
@@ -135,7 +130,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({Login, openSignUp}, dispatch)
+    return bindActionCreators({Login, openLogin}, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Form)

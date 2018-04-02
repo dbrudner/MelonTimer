@@ -8,14 +8,16 @@ import { Login, logout } from '../actions';
 import LoginOrRegister from './login-or-register'
 import UserInfo from './user-info'
 import Signup from '../signup/signup'
+import LoginModal from '../login-modal/login'
 
 const NavbarContainer = styled.div`
-    background-color: rgb(80%, 53.4%, 53.4%);
+    background-color: #ffffff;
     width: 100%;
     display: flex;
     justify-content: space-between;
     font-size: 2rem;
     padding: 2rem;
+    border-bottom: 5px solid #c6ffd8;
 `
 
 const Brand = styled.div`
@@ -41,12 +43,13 @@ const NavLinks = styled.div`
 
             a {
                 text-decoration: none;
-                color: white;
+                color: #f26a6a;
                 display: inline-block;
                 transition: all .3s;
 
+
                 :hover {
-                    color: #b3ff97;
+                    color: #ffc100;
                     transition: all .3s;
                     transform: translateY(-1rem);
                 }
@@ -104,7 +107,6 @@ class Navbar extends Component {
     }
 
     renderInfoOrLogin = () => {
-        console.log('hey')
         if (!this.state.loginCheck) return null
 
         if (this.props.state.user) {
@@ -117,24 +119,25 @@ class Navbar extends Component {
     render() {
         return (
             <div>
-                {this.props.state.openSignUp ? <Signup closeModal={this.closeSignupModal}/> : null}
+                {this.props.state.openSignUp ? <Signup /> : null}
+                {this.props.state.openLogin ? <LoginModal /> : null}
                 <NavbarContainer>
                     <Brand>
                         Lifetimer
                         <NavLinks>
                             <ul>
                                 <li><Link to='/sessions'>Session Log</Link></li>
-                                <li><Link to='/session'>Start New Session</Link></li>                                
+                                <li><Link to='/session'>Start New Session</Link></li>
                             </ul>
                         </NavLinks>
                     </Brand>
-                    
+
                     <UserContainer>
                         {this.renderInfoOrLogin()}
                     </UserContainer>
                 </NavbarContainer>
             </div>
-            
+
         )
     }
 }
