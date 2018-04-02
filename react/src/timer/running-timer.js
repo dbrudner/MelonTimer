@@ -13,7 +13,8 @@ class RunningTimer extends Component {
             minutes: 0,
             hours: 0,
             timerPaused: false,
-            breaks: 0
+            breaks: 0,
+            startTime: this.props.startTime
         }
     }
 
@@ -89,7 +90,6 @@ class RunningTimer extends Component {
 
     render() {
         const time = this.state
-        console.log(this.props.startTime)
 
         const pausedStyle = {
             'backgroundColor': 'red'

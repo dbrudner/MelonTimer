@@ -168,7 +168,7 @@ class Navbar extends Component {
                     <Link to='/home'><MenuItem primaryText="Home" /></Link>
                     <Link to='/sessions'><MenuItem primaryText="Session Logs" /></Link>
                     <Link to='/session'><MenuItem primaryText="Start New Session" /></Link>
-                    <MenuItem primaryText="Sign Out" />
+                    <MenuItem primaryText="Sign Out" onClick={this.props.logout}/>
                 </Menu>
             )
         }
