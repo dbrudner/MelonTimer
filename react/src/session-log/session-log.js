@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import axios from 'axios'
 import moment from 'moment'
 import Modal from 'react-responsive-modal'
-import {SessionLogContainer, SessionLogTable, Info, Delete} from './styles'
+import {SessionLogContainer, SessionLogTable, Info, Delete, TimeLabel} from './styles'
 
 import MoreInfo from './more-info'
 import ActivityInfo from './activity-info'
@@ -79,36 +79,31 @@ class SessionLog extends Component {
 
     renderTime = ms => {
         let seconds = Math.floor(ms/1000)
-        if (seconds < 60) {
-            return <div>{`${seconds} Seconds`}</div>
-        } else {
-            let minutes = Math.floor(seconds/60)
+        let minutes = 0
+        let hours = 0
+
+        if (seconds >= 60) {
+            minutes = Math.floor(seconds/60)
             seconds = seconds % 60
 
             if (minutes >= 60) {
-                const hours = Math.floor(minutes/60)
-                minutes = minutes % 60;
-                return (
-                    <div>
-                        {`${hours} ${hours > 1 ? 'Hours' : 'Hour'}`}
-                        {`${minutes} ${minutes > 1 ? 'Minutes' : 'Minute'}`}
-                        {`${seconds} ${seconds > 1 ? 'Seconds' : 'Second'}`}
-                    </div>
-                )
-
-            } else {
-                return (
-                    <div>
-                        <div>
-                            {`${minutes} ${minutes > 1 ? 'Minutes' : 'Minute'}`}
-                        </div>
-                        <div>
-                            {`${seconds} ${seconds > 1 ? 'Seconds' : 'Second'}`}
-                        </div>
-                    </div>
-                )
+                hours = Math.floor(minutes/60)
+                minutes = minutes % 60
             }
         }
+
+
+        if (seconds < 10) seconds = '0' + seconds
+        if (minutes < 10) minutes = '0' + minutes
+        if (hours < 10) hours = '0' + hours
+
+        return (
+            <div style={{fontSize: '2.7rem', marginLeft: '1rem', textAlign: 'center'}}>
+                {hours > 0 ? <span>{hours} <TimeLabel>h</TimeLabel></span> : null}
+                {minutes > 0 ? <span>{minutes} <TimeLabel>m</TimeLabel></span> : null}
+                {seconds} <TimeLabel>s</TimeLabel>
+            </div>
+        )
     }
 
     showMoreInfo = session => {
@@ -193,9 +188,9 @@ class SessionLog extends Component {
             return (
                 <thead>
                     <tr>
-                        <th style={{width: '7rem', 'wordWrap': 'break-word'}}>Date</th>
+                        <th style={{width: '5rem', 'wordWrap': 'break-word'}}>Date</th>
                         <th style={{width: '7rem', 'wordWrap': 'break-word'}}>Activity</th>
-                        <th style={{width: '7rem', 'wordWrap': 'break-word'}}>Total Time</th>
+                        <th style={{width: '10rem', 'wordWrap': 'break-word'}}>Total Time</th>
                         <th style={{width: '5rem', 'wordWrap': 'break-word'}}>Started</th>
                         <th style={{width: '5rem', 'wordWrap': 'break-word'}}>Finished</th>
                         <th style={{width: '7rem', 'wordWrap': 'break-word'}}>Breaks</th>
@@ -206,12 +201,14 @@ class SessionLog extends Component {
         }
 
         return (
-            <SessionLogTable>
-                {sessionTableHeader()}
-                <tbody>
-                    {sessionRows}
-                </tbody>
-            </SessionLogTable>
+            <div style={{overflowX: 'auto'}}>
+                <SessionLogTable>
+                    {sessionTableHeader()}
+                    <tbody>
+                        {sessionRows}
+                    </tbody>
+                </SessionLogTable>
+            </div>
         )
     }
 

@@ -19,12 +19,21 @@ export const SessionLogContainer = styled.div`
     display: block;
 `
 
+export const TimeLabel = styled.span`
+    font-size: 2.2rem;
+    margin-left: -.75rem;
+    margin-right: 1rem;
+`
+
 export const SessionLogTable = styled.table`
     text-align: center;
     font-size: 2.0rem;
     border-collapse: collapse;
     margin: 0 auto;
     border: 5px solid black;
+    overflow-x: auto;
+    table-layout: fixed;
+    width: 1000px;
 
     td, th {
         padding: 1rem;
