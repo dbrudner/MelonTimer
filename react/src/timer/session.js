@@ -3,6 +3,8 @@ import {connect} from 'react-redux'
 import NotSignedIn from './not-signed-in'
 import {TimerContainer, StartSession, SessionContainer} from './styles'
 import axios from 'axios'
+import {Redirect} from 'react-router-dom'
+
 import RunningTimer from './running-timer'
 
 import AutoComplete from 'material-ui/AutoComplete'
@@ -15,7 +17,7 @@ class Session extends Component {
         this.state = {
             activity: '',
             activities: [],
-            sessionStarted: true,
+            sessionStarted: false,
             sessionFinished: false,
             times: [],
             currentSession: {
@@ -96,7 +98,7 @@ class Session extends Component {
     sessionFinished = () => {
         // Add final session segment
         this.setState({
-            sessionFinished: true,
+            
             currentSession: {...this.state.currentSession, finished: Date.now()}
         }, () => {
             this.setState({
@@ -113,7 +115,7 @@ class Session extends Component {
                 // Post new session
                 axios.post('/new/session', session)
                 .then(res => {
-                    console.log(res)
+                    this.setState({sessionFinished: true})
                 })
             })
         })
@@ -127,7 +129,7 @@ class Session extends Component {
 
         // If session is finished, make request and show results
         if (this.state.sessionFinished) {
-            return <div>Finished</div>
+            return <Redirect to='/sessions'/>
         }
 
         // If timer is started, start a timer and return this component instead

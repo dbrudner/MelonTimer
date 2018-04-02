@@ -85,31 +85,6 @@ class LoginOrRegister extends Component {
                     onClick={this.signUp}
                     style={{marginRight: '3rem'}}
                 />
-                {/* <Form onSubmit={this.handleSubmit}> */}
-                    {/* {this.state.loginFail ? <span>Wrong username or password</span> : null} */}
-                    {/* <TextField
-                        hintText="Username"
-                        floatingLabelFixed={true}
-                        value={this.state.username}
-                        onChange={event => {this.handleChange('username', event.target.value)}}
-                        floatingLabelStyle={{color: '#717171'}}
-                        hintStyle={{color: '#717171'}}
-                        style={{width: '10rem'}}
-                    />
-                    <TextField
-                        hintText="Password"
-                        floatingLabelFixed={true}
-                        value={this.state.password}
-                        onChange={event => {this.handleChange('password', event.target.value)}}
-                        floatingLabelStyle={{color: '#717171'}}
-                        hintStyle={{color: '#717171'}}
-                        style={{marginRight: '2rem', width: '10rem'}}
-                    /> */}
-                    {/* <button type='submit'>Login</button>
-                </Form>
-                <SignupButtonContainer>
-                    <button onClick={this.signUp}> Sign up </button>
-                </SignupButtonContainer> */}
             </div>
         )
     }

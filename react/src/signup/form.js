@@ -39,8 +39,7 @@ class Form extends Component {
                 password_again: '',
 
             },
-            error: null,
-            redirectTo: null
+            error: null
         }
     }
 

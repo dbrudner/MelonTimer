@@ -82,8 +82,8 @@ class RunningTimer extends Component {
             )
         } else {
             return (
-            <RaisedButton onClick={this.startTimer}>Finished Break (start timer)</RaisedButton>
-        )
+                <RaisedButton onClick={this.startTimer}>Finished Break (start timer)</RaisedButton>
+            )
         }
     }
 
