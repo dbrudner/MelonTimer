@@ -71,6 +71,7 @@ const NavLinks = styled.div`
 const UserContainer = styled.div`
     display: inline-block;
     margin-right: 3rem;
+    margin-top: .8rem;
 
     ul {
         margin: 0;

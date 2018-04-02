@@ -45,9 +45,7 @@ module.exports = {
             console.log(sessionId)
             db.Session.findOneAndRemove({'_id': sessionId})
             .exec((error, result) => {
-                if (error) console.log(error)
-                console.log(result)
-                
+                if (error) console.log(error)                
                 res.json(result)
             })
         })
