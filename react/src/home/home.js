@@ -33,7 +33,7 @@ export default class Home extends Component {
                     Keep track and record lengths of time for anything you're doing
                 </h3>
                 <p>
-                    Log in or Sign Up and click start new session to get started                    
+                    Log in or Sign Up and click <strong>Start New Session</strong> to get started                    
                 </p>
 
             </HomeContainer>
