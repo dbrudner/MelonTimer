@@ -8,7 +8,8 @@ class RunningTimer extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            deciseconds: 0,
+            startTime: Date.now(),
+            currentTime: Date.now(),
             seconds: 0,
             minutes: 0,
             hours: 0,
@@ -28,32 +29,32 @@ class RunningTimer extends Component {
 
     tick = () => {
 
-        if (this.state.deciseconds < 100) {
-            this.setState({
-                deciseconds: this.state.deciseconds + 10
-            })
-        }
+        this.setState({
+            currentTime: Date.now()
+        }, () => {
+            const totalSeconds = Math.floor((this.state.currentTime - this.state.startTime)/10);
 
-        if (this.state.deciseconds === 100) {
             this.setState({
-                deciseconds: 0,
-                seconds: this.state.seconds + 1
+                seconds: totalSeconds
             }, () => {
-                if (this.state.seconds === 60) {
+                if (this.state.seconds > 60) {
                     this.setState({
-                        seconds: 0,
-                        minutes: this.state.minutes + 1
+                        seconds: totalSeconds % 60,
+                        minutes: Math.floor(totalSeconds/60)
                     }, () => {
-                        if (this.state.minutes === 60) {
+                        if (this.state.minutes > 59) {
+                            console.log(totalSeconds)
                             this.setState({
-                                minutes: 0,
-                                hours: this.state.hours + 1
+                                minutes: (Math.floor(totalSeconds/60)) % 60,
+                                hours: Math.floor(totalSeconds/3600)
                             })
                         }
                     })
                 }
             })
-        }
+        })
+
+
     }
 
     pauseTimer = () => {
@@ -65,8 +66,9 @@ class RunningTimer extends Component {
     }
 
     startTimer = () => {
+
         this.interval = setInterval(this.tick, 100);
-        this.setState({timerPaused: false})
+        this.setState({timerPaused: false});
 
         // Records when a break is finished for logging
         this.props.startTimer()
@@ -113,8 +115,7 @@ class RunningTimer extends Component {
                     <TimeBox>
                         {(this.state.hours < 10 ? '0' + time.hours : time.hours)}:
                         {(this.state.minutes < 10 ? '0' + time.minutes : time.minutes)}:
-                        {(this.state.seconds < 10 ? '0' + time.seconds : time.seconds)}:
-                        {time.deciseconds/10}
+                        {(this.state.seconds < 10 ? '0' + time.seconds : time.seconds)}
                     </TimeBox>
                         <RaisedButton
                             // style={this.state.timerPaused ? {...pausedStyle} : {...runningStyle}}
