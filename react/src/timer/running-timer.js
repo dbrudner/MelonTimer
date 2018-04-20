@@ -32,7 +32,7 @@ class RunningTimer extends Component {
         this.setState({
             currentTime: Date.now()
         }, () => {
-            const totalSeconds = Math.floor((this.state.currentTime - this.state.startTime)/10);
+            const totalSeconds = Math.floor((this.state.currentTime - this.state.startTime)/1000);
 
             this.setState({
                 seconds: totalSeconds
